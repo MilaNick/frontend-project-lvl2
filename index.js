@@ -1,8 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 
 const genDiff = (filepath1, filepath2) => {
-  const file1 = fs.readFileSync('../data/file1.json', {encoding: 'utf8'});
-  const file2 = fs.readFileSync('../data/file2.json', {encoding: 'utf8'});
+  const pathToDataDir = '/home/solo/frontend-project-lvl2/data'
+  const file1 = fs.readFileSync(path.resolve(pathToDataDir, filepath1), {encoding: 'utf8'});
+  const file2 = fs.readFileSync(path.resolve(pathToDataDir, filepath2), {encoding: 'utf8'});
   const obj1 = JSON.parse(file1);
   const obj2 = JSON.parse(file2);
   const rows = [];
