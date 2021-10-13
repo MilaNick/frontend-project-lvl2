@@ -72,7 +72,7 @@ file2:
   "host": "hexlet.io"
 }
 ```  
-[![asciicast](https://asciinema.org/a/426746.svg)](https://asciinema.org/a/441860)
+[![asciicast](https://asciinema.org/a/441860.svg)](https://asciinema.org/a/441860)
 
 
 
