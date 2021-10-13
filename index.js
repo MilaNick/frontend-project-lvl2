@@ -1,15 +1,10 @@
-const file1 = {
-  host: 'hexlet.io',
-  timeout: 50,
-  proxy: '123.234.53.22',
-  follow: false,
-};
-const file2 = {
-  timeout: 20,
-  verbose: true,
-  host: 'hexlet.io',
-};
-const genDiff = (obj1, obj2) => {
+import fs from 'fs';
+
+const genDiff = (filepath1, filepath2) => {
+  const file1 = fs.readFileSync('../data/file1.json', {encoding: 'utf8'});
+  const file2 = fs.readFileSync('../data/file2.json', {encoding: 'utf8'});
+  const obj1 = JSON.parse(file1);
+  const obj2 = JSON.parse(file2);
   const rows = [];
   const newSymbol = Symbol('replacement');
   const uniqKeys = (Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)]))).sort();
@@ -35,6 +30,7 @@ const genDiff = (obj1, obj2) => {
       rows.push(`+ ${key}: ${joint[key][1]}`);
     }
   });
-  console.log(`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`);
+  return(`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`);
 };
-genDiff(file1, file2);
+export default genDiff;
+
