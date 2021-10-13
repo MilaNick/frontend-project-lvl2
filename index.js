@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 const genDiff = (filepath1, filepath2) => {
-  const pathToDataDir = '/home/solo/frontend-project-lvl2/data'
-  const file1 = fs.readFileSync(path.resolve(pathToDataDir, filepath1), {encoding: 'utf8'});
-  const file2 = fs.readFileSync(path.resolve(pathToDataDir, filepath2), {encoding: 'utf8'});
+  const pathToDataDir = '/home/solo/frontend-project-lvl2/data';
+  const file1 = fs.readFileSync(path.resolve(pathToDataDir, filepath1), { encoding: 'utf8' });
+  const file2 = fs.readFileSync(path.resolve(pathToDataDir, filepath2), { encoding: 'utf8' });
   const obj1 = JSON.parse(file1);
   const obj2 = JSON.parse(file2);
   const rows = [];
@@ -32,7 +32,6 @@ const genDiff = (filepath1, filepath2) => {
       rows.push(`+ ${key}: ${joint[key][1]}`);
     }
   });
-  return(`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`);
+  return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`);
 };
 export default genDiff;
-

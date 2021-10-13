@@ -59,7 +59,7 @@ file2:
   "host": "hexlet.io"
 }
 ```  
-запуск
+запуск:
 ```
 gendiff 'file1.json' 'file2.json'
 
