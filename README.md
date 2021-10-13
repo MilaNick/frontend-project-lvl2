@@ -22,16 +22,6 @@
 Поддержка разных форматов - json, yaml, ini;
 Генерация отчета в виде plain text, pretty и json
 
-## Пример использования:
-
-```
-$ gendiff --format plain first-config.ini second-config.ini
-Setting "common.setting2" deleted.
-Setting "common.setting4" added with value "blah blah".
-Setting "group1.baz" changed from "bas" to "bars".
-Section "group2" deleted.
-```
-
 ## Установка
 
 ```npm i -g project-gendiff```
@@ -49,14 +39,11 @@ Options:
 -f, --format [type]  Output format (default: "stylish")
 -h, --help           output usage information
 ```
-  
-#### Ключевые слова:
 
-TDD, unit-тестирование, функциональное программирование, абстрактное синтаксическое дерево, форматы данных, полиморфизм, архитектурные принципы  
 ## Examples
 ### flat json  
 file1:  
-```html
+```
 {
   "host": "hexlet.io",
   "timeout": 50,
@@ -65,13 +52,18 @@ file1:
 }
 ```
 file2:  
-```html
+```
 {
   "timeout": 20,
   "verbose": true,
   "host": "hexlet.io"
 }
 ```  
+запуск
+```
+gendiff 'file1.json' 'file2.json'
+
+```
 [![asciicast](https://asciinema.org/a/441860.svg)](https://asciinema.org/a/441860)
 
 
