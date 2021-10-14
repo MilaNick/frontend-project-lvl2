@@ -2,9 +2,7 @@
 [![Actions Status](https://github.com/MilaNick/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/380c1b7806a4bcad9861/maintainability)](https://codeclimate.com/github/MilaNick/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/380c1b7806a4bcad9861/test_coverage)](https://codeclimate.com/github/MilaNick/frontend-project-lvl2/test_coverage)
-[![Lint Status](https://github.com/MilaNick/frontend-project-lvl2/actions/workflows/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)
-
-
+[![example workflow](https://github.com/MilaNick/frontend-project-lvl2/actions/workflows/actions.yml/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)
 
 ## Project-gendiff
 

@@ -1,17 +1,20 @@
-name: checks
+name: Github Actions
 
 on: push
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
     steps:
       - name: checkout repo
         uses: actions/checkout@v2
-      - name: Setup node
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 13.x
+          node-version: ${{ matrix.node-version }}
       - name: install deps
         run: make install
       - name: lint
