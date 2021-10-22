@@ -4,7 +4,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/380c1b7806a4bcad9861/test_coverage)](https://codeclimate.com/github/MilaNick/frontend-project-lvl2/test_coverage)
 [![example workflow](https://github.com/MilaNick/frontend-project-lvl2/actions/workflows/actions.yml/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)
 
-## Project-gendiff
+## ✨ Project-gendiff ✨
 
 Проект 'Вычислитель отличий'. В проекте реализована утилита для поиска отличий в конфигурационных файлах.
 
