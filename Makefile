@@ -9,4 +9,4 @@ gendiff:
 test:
 	npm test
 test-coverage:
-	npm test -- --coverage
+	npx test -- --coverage
