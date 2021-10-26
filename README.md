@@ -3,7 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/380c1b7806a4bcad9861/maintainability)](https://codeclimate.com/github/MilaNick/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/380c1b7806a4bcad9861/test_coverage)](https://codeclimate.com/github/MilaNick/frontend-project-lvl2/test_coverage)
 [![example workflow](https://github.com/MilaNick/frontend-project-lvl2/actions/workflows/actions.yml/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)
-
+[![Build Status](https://app.travis-ci.com/MilaNick/frontend-project-lvl2.svg?branch=main)](https://app.travis-ci.com/MilaNick/frontend-project-lvl2)
 ## ✨ Project-gendiff ✨
 
 Проект 'Вычислитель отличий'. В проекте реализована утилита для поиска отличий в конфигурационных файлах.
