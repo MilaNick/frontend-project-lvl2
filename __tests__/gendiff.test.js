@@ -79,8 +79,9 @@ describe('yaml', () => {
   - timeout: 50
   + timeout: 20
   + verbose: true
-}`);
-  })
+}`,
+    );
+  });
   test('the difference between objects with the same keys but different values', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case2/file-1.yaml'), resolve(__dirname, '../__fixtures__/case2/file-2.yaml'));
@@ -96,8 +97,9 @@ describe('yaml', () => {
   + timeout: 20
   - verbose: false
   + verbose: true
-}`);
-  })
+}`,
+    );
+  });
 
   test('the difference between empty and filled objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -109,8 +111,9 @@ describe('yaml', () => {
   + proxy: 123.234.53.25
   + timeout: 20
   + verbose: true
-}`);
-  })
+}`,
+    );
+  });
 
   test('the difference between objects that do not have the same keys', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -124,6 +127,7 @@ describe('yaml', () => {
   - timeout: 50
   + timeout1: 20
   + verbose1: true
-}`);
-  })
-})
+}`,
+    );
+  });
+});

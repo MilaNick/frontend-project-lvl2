@@ -2,7 +2,7 @@ import yaml from 'js-yaml';
 
 const parse = (format, data) => {
   if (data === '') {
-    return {}
+    return {};
   }
   switch (format) {
     case 'json':
