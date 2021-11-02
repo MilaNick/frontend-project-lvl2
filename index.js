@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import parse from './parsers.js';
+import parse from './src/parsers.js';
 
 const genDiff = (filepath1, filepath2) => {
   const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
