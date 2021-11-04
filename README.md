@@ -33,7 +33,7 @@ Options:
 ```
 
 ## Examples
-### flat json  
+### flat file 
 file1:  
 ```
 {
@@ -63,7 +63,11 @@ gendiff 'file1.json' 'file2.json'
 gendiff 'file1.yml' 'file2.yml'
 
 ```
-[![asciicast](https://asciinema.org/a/446615.svg)](https://asciinema.org/a/446615)
+[![asciicast](https://asciinema.org/a/446615.svg)](https://asciinema.org/a/446615)  
+
+### files with nested structure
+
+[![asciicast](https://asciinema.org/a/447110.svg)](https://asciinema.org/a/447110)
 
 ## Цель
 Это приложение, реализованное в рамках второго проекта при изучении профессии Javascript-разработчика на hexlet.io. Второй проект является логическим развитием [первого](https://ru.wikipedia.org/) Он захватывает большую часть синтаксических возможностей js и использует более сложную архитектуру. Требования:
