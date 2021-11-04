@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import parse from './src/parsers.js';
-import stylish from './src/stylish.js'
+import stylish from './src/stylish.js';
 
 const getObject = (filepath) => {
   const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
@@ -11,11 +11,11 @@ const getObject = (filepath) => {
 };
 
 const getDiffOfObjects = (obj1, obj2, newSymbol) => {
-  const rows = []
+  const rows = [];
   const uniqKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort();
   const joint = uniqKeys.reduce((acc, key) => {
     let flag = false;
-    let newRow = ''
+    let newRow = '';
     const allObj = typeof obj1[key] === 'object' && typeof obj2[key] === 'object' && (obj1[key] && obj2[key]);
     if (allObj) {
       flag = true;
@@ -29,7 +29,9 @@ const getDiffOfObjects = (obj1, obj2, newSymbol) => {
       }
     }
     const v1 = newRow;
-    acc[key] = [(key in obj1) ? (flag ? v1 : obj1[key]) : newSymbol, (key in obj2) ? (flag ? v1 : obj2[key]) : newSymbol];
+    const a1 = flag ? v1 : obj1[key];
+    const a2 = flag ? v1 : obj2[key];
+    acc[key] = [(key in obj1) ? a1 : newSymbol, (key in obj2) ? a2 : newSymbol];
     return acc;
   }, {});
   uniqKeys.forEach((key) => {

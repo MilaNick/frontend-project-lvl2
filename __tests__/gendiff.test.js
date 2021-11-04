@@ -3,8 +3,6 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import genDiff from '../index.js';
 
-
-
 describe('json', () => {
   test('difference for files with nested structure', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -168,7 +166,7 @@ describe('yaml', () => {
         fee: 100500
     }
 }`,
-      );
+    );
   });
   test('the difference between partially intersecting objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
