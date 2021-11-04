@@ -3,7 +3,59 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import genDiff from '../index.js';
 
+
+
 describe('json', () => {
+  test('difference for files with nested structure', () => {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'));
+    expect(result).toBe(
+      `{
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
+}`,
+    );
+  });
   test('the difference between partially intersecting objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-1.json'), resolve(__dirname, '../__fixtures__/case1/file-2.json'));
@@ -68,6 +120,56 @@ describe('json', () => {
   });
 });
 describe('yaml', () => {
+  test('difference for files with nested structure', () => {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'));
+    expect(result).toBe(
+      `{
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: null
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
+}`,
+      );
+  });
   test('the difference between partially intersecting objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-1.yml'), resolve(__dirname, '../__fixtures__/case1/file-2.yml'));
