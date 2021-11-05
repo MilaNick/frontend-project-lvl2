@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import parse from './src/parsers.js';
-import stylish from './src/stylish.js';
+// import stylish from './src/formatters/stylish.js';
+// import plain from './src/formatters/plain.js';
 
 const getObject = (filepath) => {
   const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
@@ -10,54 +11,45 @@ const getObject = (filepath) => {
   return parse(format, file);
 };
 
-const getDiffOfObjects = (obj1, obj2, newSymbol) => {
-  const rows = [];
-  const uniqKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort();
-  const joint = uniqKeys.reduce((acc, key) => {
-    let flag = false;
-    let newRow = '';
-    const allObj = typeof obj1[key] === 'object' && typeof obj2[key] === 'object' && (obj1[key] && obj2[key]);
-    if (allObj) {
-      flag = true;
-      newRow = stylish(getDiffOfObjects(obj1[key], obj2[key], newSymbol));
-    } else if (typeof obj1[key] === 'object' || typeof obj2[key] === 'object') {
-      if (typeof obj1[key] === 'object' && obj1[key]) {
-        obj1[key] = stylish(getDiffOfObjects(obj1[key], obj1[key], newSymbol));
-      }
-      if (typeof obj2[key] === 'object' && obj2[key]) {
-        obj2[key] = stylish(getDiffOfObjects(obj2[key], obj2[key], newSymbol));
-      }
+const getType = (key, obj1, obj2) => {
+  if (!(key in obj1) && (key in obj2)) {
+    return 'added';
+  }
+  if ((key in obj1) && !(key in obj2)) {
+    return 'deleted';
+  }
+  if ((key in obj1) && (key in obj2)) {
+    if (obj1[key] !== obj2[key]) {
+      return 'changed';
     }
-    const v1 = newRow;
-    const a1 = flag ? v1 : obj1[key];
-    const a2 = flag ? v1 : obj2[key];
-    acc[key] = [(key in obj1) ? a1 : newSymbol, (key in obj2) ? a2 : newSymbol];
-    return acc;
-  }, {});
-  uniqKeys.forEach((key) => {
-    if (joint[key][0] === joint[key][1]) {
-      rows.push(`  ${key}: ${joint[key][0]}`);
-      return;
+    if (obj1[key] === obj2[key]) {
+      return 'unchanged';
     }
-    if (joint[key][0] === newSymbol) {
-      rows.push(`+ ${key}: ${joint[key][1]}`);
-      return;
-    }
-    if (joint[key][1] === newSymbol) {
-      rows.push(`- ${key}: ${joint[key][0]}`);
-      return;
-    }
-    if (joint[key][0] !== joint[key][1]) {
-      rows.push(`- ${key}: ${joint[key][0]}`);
-      rows.push(`+ ${key}: ${joint[key][1]}`);
-    }
-  });
-  return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`);
+  }
 };
+
+const getDiffOfObjects = (obj1, obj2) => {
+  const uniqKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort();
+  return uniqKeys.reduce((diff, key) => {
+    const value1 = obj1[key];
+    const value2 = obj2[key];
+    if (typeof value1 === 'object' && typeof value2 === 'object') {
+      diff[key] = getDiffOfObjects(value1, value2);
+    } else {
+      diff[key] = {
+        value1,
+        value2,
+        type: getType(key, obj1, obj2),
+      };
+    }
+    return diff;
+  }, {});
+};
+
 const genDiff = (filepath1, filepath2) => {
   const obj1 = getObject(filepath1);
   const obj2 = getObject(filepath2);
-  const newSymbol = Symbol('replacement');
-  return getDiffOfObjects(obj1, obj2, newSymbol);
+  return getDiffOfObjects(obj1, obj2);
 };
+
 export default genDiff;
