@@ -6,7 +6,7 @@ import genDiff from '../index.js';
 describe('json', () => {
   test('difference for files with nested structure', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'), 'stylish');
     expect(result).toBe(
       `{
     common: {
@@ -56,7 +56,7 @@ describe('json', () => {
   });
   test('the difference between partially intersecting objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-1.json'), resolve(__dirname, '../__fixtures__/case1/file-2.json'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-1.json'), resolve(__dirname, '../__fixtures__/case1/file-2.json'), 'stylish');
     expect(result).toBe(
       `{
   - follow: false
@@ -70,7 +70,7 @@ describe('json', () => {
   });
   test('the difference between objects with the same keys but different values', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case2/file-1.json'), resolve(__dirname, '../__fixtures__/case2/file-2.json'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case2/file-1.json'), resolve(__dirname, '../__fixtures__/case2/file-2.json'), 'stylish');
     expect(result).toBe(
       `{
   - follow: false
@@ -89,7 +89,7 @@ describe('json', () => {
 
   test('the difference between empty and filled objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case3/file-1.json'), resolve(__dirname, '../__fixtures__/case3/file-2.json'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case3/file-1.json'), resolve(__dirname, '../__fixtures__/case3/file-2.json'), 'stylish');
     expect(result).toBe(
       `{
   + follow: true
@@ -103,7 +103,7 @@ describe('json', () => {
 
   test('the difference between objects that do not have the same keys', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case4/file-1.json'), resolve(__dirname, '../__fixtures__/case4/file-2.json'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case4/file-1.json'), resolve(__dirname, '../__fixtures__/case4/file-2.json'), 'stylish');
     expect(result).toBe(
       `{
   - follow: false
@@ -120,7 +120,7 @@ describe('json', () => {
 describe('yaml', () => {
   test('difference for files with nested structure', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'), 'stylish');
     expect(result).toBe(
       `{
     common: {
@@ -135,7 +135,7 @@ describe('yaml', () => {
         }
         setting6: {
             doge: {
-              - wow: null
+              - wow: 
               + wow: so much
             }
             key: value
@@ -170,7 +170,7 @@ describe('yaml', () => {
   });
   test('the difference between partially intersecting objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-1.yml'), resolve(__dirname, '../__fixtures__/case1/file-2.yml'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-1.yml'), resolve(__dirname, '../__fixtures__/case1/file-2.yml'), 'stylish');
     expect(result).toBe(
       `{
   - follow: false
@@ -184,7 +184,7 @@ describe('yaml', () => {
   });
   test('the difference between objects with the same keys but different values', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case2/file-1.yaml'), resolve(__dirname, '../__fixtures__/case2/file-2.yaml'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case2/file-1.yaml'), resolve(__dirname, '../__fixtures__/case2/file-2.yaml'), 'stylish');
     expect(result).toBe(
       `{
   - follow: false
@@ -203,7 +203,7 @@ describe('yaml', () => {
 
   test('the difference between empty and filled objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case3/file-1.yml'), resolve(__dirname, '../__fixtures__/case3/file-2.yaml'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case3/file-1.yml'), resolve(__dirname, '../__fixtures__/case3/file-2.yaml'), 'stylish');
     expect(result).toBe(
       `{
   + follow: true
@@ -217,7 +217,7 @@ describe('yaml', () => {
 
   test('the difference between objects that do not have the same keys', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case4/file-1.yml'), resolve(__dirname, '../__fixtures__/case4/file-2.yaml'));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case4/file-1.yml'), resolve(__dirname, '../__fixtures__/case4/file-2.yaml'), 'stylish');
     expect(result).toBe(
       `{
   - follow: false
