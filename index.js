@@ -48,7 +48,7 @@ export const getDiffOfObjects = (obj1, obj2) => {
 const genDiff = (filepath1, filepath2, format) => {
   const obj1 = getObject(filepath1);
   const obj2 = getObject(filepath2);
-  if (format === 'stylish') return stylish(getDiffOfObjects(obj1, obj2), true);
+  return stylish(getDiffOfObjects(obj1, obj2), true);
 };
 
 export default genDiff;
