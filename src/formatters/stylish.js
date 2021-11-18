@@ -1,37 +1,38 @@
-import { getDiffOfObjects } from '../../index.js';
+const getObjAsString = (obj) => JSON.stringify(obj, null, 4)
+  .replaceAll('"', '')
+  .replaceAll('\n', '\n    ')
+  .replaceAll(',\n', '\n');
 
 export default function stylish(obj, isFirstIteration = false) {
   const rows = [];
   const entries = Object.entries(obj);
   entries.forEach((pair) => {
     const key = pair[0];
-    const value = pair[1];
-    const { type } = value;
+    const diff = pair[1];
+    const { type } = diff;
     if (type) {
-      if (typeof value.value1 === 'object' && value.value1) {
-        value.value1 = stylish(getDiffOfObjects(value.value1, value.value1));
+      if (typeof diff.value1 === 'object' && diff.value1) {
+        diff.value1 = getObjAsString(diff.value1);
       }
-      if (typeof value.value2 === 'object' && value.value2) {
-        value.value2 = stylish(getDiffOfObjects(value.value2, value.value2));
+      if (typeof diff.value2 === 'object' && diff.value2) {
+        diff.value2 = getObjAsString(diff.value2);
       }
-      if (type === 'added') {
-        rows.push(`+ ${key}: ${value.value2}`);
-        return;
-      }
-      if (type === 'deleted') {
-        rows.push(`- ${key}: ${value.value1}`);
-        return;
-      }
-      if (type === 'changed') {
-        rows.push(`- ${key}: ${value.value1}`);
-        rows.push(`+ ${key}: ${value.value2}`);
-        return;
-      }
-      if (type === 'unchanged') {
-        rows.push(`  ${key}: ${value.value1}`);
+      switch (type) {
+        case 'added':
+          rows.push(`+ ${key}: ${diff.value2}`);
+          return;
+        case 'removed':
+          rows.push(`- ${key}: ${diff.value1}`);
+          return;
+        case 'updated':
+          rows.push(`- ${key}: ${diff.value1}`);
+          rows.push(`+ ${key}: ${diff.value2}`);
+          return;
+        case 'notUpdated':
+          rows.push(`  ${key}: ${diff.value1}`);
       }
     } else {
-      rows.push(`  ${key}: ${stylish(value)}`);
+      rows.push(`  ${key}: ${stylish(diff)}`);
     }
   });
   return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`)

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from './src/parsers.js';
 import stylish from './src/formatters/stylish.js';
+import plain from './src/formatters/plain.js';
 
 const getObject = (filepath) => {
   const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
@@ -15,14 +16,14 @@ const getType = (key, obj1, obj2) => {
     return 'added'; // если в первом нет ключа, а во втором есть
   }
   if ((key in obj1) && !(key in obj2)) {
-    return 'deleted'; // если в первом есть ключ, а во втором нет
+    return 'removed'; // если в первом есть ключ, а во втором нет
   }
   if ((key in obj1) && (key in obj2)) {
     if (obj1[key] !== obj2[key]) {
-      return 'changed'; // если ключи есть в обоих, но значения разные
+      return 'updated'; // если ключи есть в обоих, но значения разные
     }
     if (obj1[key] === obj2[key]) {
-      return 'unchanged'; // если ключи и значения тождественны
+      return 'notUpdated'; // если ключи и значения тождественны
     }
   }
 };
@@ -48,7 +49,18 @@ export const getDiffOfObjects = (obj1, obj2) => {
 const genDiff = (filepath1, filepath2, format) => {
   const obj1 = getObject(filepath1);
   const obj2 = getObject(filepath2);
-  if (format === 'stylish') return stylish(getDiffOfObjects(obj1, obj2), true);
+  switch (format) {
+    case 'stylish': {
+      return stylish(getDiffOfObjects(obj1, obj2), true);
+    }
+    case 'plain': {
+      // console.log(getDiffOfObjects(obj1, obj2), true)
+      return plain(getDiffOfObjects(obj1, obj2));
+    }
+    default: {
+      return new Error('данного формата не существует');
+    }
+  }
 };
 
 export default genDiff;

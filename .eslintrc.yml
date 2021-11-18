@@ -19,3 +19,5 @@ rules:
   no-param-reassign: 0
   consistent-return: 0
   import/no-cycle: 0
+  default-case: 0
+  no-shadow: 0

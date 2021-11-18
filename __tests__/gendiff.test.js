@@ -4,6 +4,23 @@ import { dirname, resolve } from 'path';
 import genDiff from '../index.js';
 
 describe('json', () => {
+  test('difference for files with nested structure with formatter plain', () => {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'), 'plain');
+    expect(result).toBe(
+      `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`,
+    );
+  });
   test('difference for files with nested structure', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'), 'stylish');
@@ -118,6 +135,23 @@ describe('json', () => {
   });
 });
 describe('yaml', () => {
+  test('difference for files with nested structure with formatter plain', () => {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'), 'plain');
+    expect(result).toBe(
+      `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`,
+    );
+  });
   test('difference for files with nested structure', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'), 'stylish');
