@@ -54,8 +54,10 @@ const genDiff = (filepath1, filepath2, format) => {
       return stylish(getDiffOfObjects(obj1, obj2), true);
     }
     case 'plain': {
-      // console.log(getDiffOfObjects(obj1, obj2), true)
       return plain(getDiffOfObjects(obj1, obj2));
+    }
+    case 'json': {
+      return JSON.stringify(getDiffOfObjects(obj1, obj2));
     }
     default: {
       return new Error('данного формата не существует');

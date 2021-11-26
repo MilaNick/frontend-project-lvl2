@@ -4,6 +4,13 @@ import { dirname, resolve } from 'path';
 import genDiff from '../index.js';
 
 describe('json', () => {
+  test('difference for files with nested structure with formatter json', () => {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'), 'json');
+    expect(result).toBe(
+      '{"common":{"follow":{"value2":false,"type":"added"},"setting1":{"value1":"Value 1","value2":"Value 1","type":"notUpdated"},"setting2":{"value1":200,"type":"removed"},"setting3":{"value1":true,"value2":null,"type":"updated"},"setting4":{"value2":"blah blah","type":"added"},"setting5":{"value2":{"key5":"value5"},"type":"added"},"setting6":{"doge":{"wow":{"value1":"","value2":"so much","type":"updated"}},"key":{"value1":"value","value2":"value","type":"notUpdated"},"ops":{"value2":"vops","type":"added"}}},"group1":{"baz":{"value1":"bas","value2":"bars","type":"updated"},"foo":{"value1":"bar","value2":"bar","type":"notUpdated"},"nest":{"value1":{"key":"value"},"value2":"str","type":"updated"}},"group2":{"value1":{"abc":12345,"deep":{"id":45}},"type":"removed"},"group3":{"value2":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}}',
+    );
+  });
   test('difference for files with nested structure with formatter plain', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'), 'plain');
@@ -135,6 +142,13 @@ Property 'group3' was added with value: [complex value]`,
   });
 });
 describe('yaml', () => {
+  test('difference for files with nested structure with formatter json', () => {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'), 'json');
+    expect(result).toBe(
+      '{"common":{"follow":{"value2":false,"type":"added"},"setting1":{"value1":"Value 1","value2":"Value 1","type":"notUpdated"},"setting2":{"value1":200,"type":"removed"},"setting3":{"value1":true,"value2":null,"type":"updated"},"setting4":{"value2":"blah blah","type":"added"},"setting5":{"value2":{"key5":"value5"},"type":"added"},"setting6":{"doge":{"wow":{"value1":"","value2":"so much","type":"updated"}},"key":{"value1":"value","value2":"value","type":"notUpdated"},"ops":{"value2":"vops","type":"added"}}},"group1":{"baz":{"value1":"bas","value2":"bars","type":"updated"},"foo":{"value1":"bar","value2":"bar","type":"notUpdated"},"nest":{"value1":{"key":"value"},"value2":"str","type":"updated"}},"group2":{"value1":{"abc":12345,"deep":{"id":45}},"type":"removed"},"group3":{"value2":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}}',
+    );
+  });
   test('difference for files with nested structure with formatter plain', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yaml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'), 'plain');
