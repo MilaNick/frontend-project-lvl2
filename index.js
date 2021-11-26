@@ -26,6 +26,7 @@ const getType = (key, obj1, obj2) => {
       return 'notUpdated'; // если ключи и значения тождественны
     }
   }
+  return '';
 };
 
 export const getDiffOfObjects = (obj1, obj2) => {

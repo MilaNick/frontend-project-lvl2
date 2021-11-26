@@ -10,6 +10,7 @@ const getObjAsString = (obj) => {
       .replace(/\n/g, '\n    ')
       .replace(/,\n/g, '\n');
   }
+  return '';
 };
 export default function stylish(obj, isFirstIteration = false) {
   const rows = [];
@@ -27,20 +28,22 @@ export default function stylish(obj, isFirstIteration = false) {
       }
       switch (type) {
         case 'added':
-          rows.push(`+ ${key}: ${diff.value2}`);
+          rows[rows.length] = `+ ${key}: ${diff.value2}`;
           return;
         case 'removed':
-          rows.push(`- ${key}: ${diff.value1}`);
+          rows[rows.length] = `- ${key}: ${diff.value1}`;
           return;
         case 'updated':
-          rows.push(`- ${key}: ${diff.value1}`);
-          rows.push(`+ ${key}: ${diff.value2}`);
+          rows[rows.length] = `- ${key}: ${diff.value1}`;
+          rows[rows.length] = `+ ${key}: ${diff.value2}`;
           return;
         case 'notUpdated':
-          rows.push(`  ${key}: ${diff.value1}`);
+          rows[rows.length] = `  ${key}: ${diff.value1}`;
+          break;
+        default:
       }
     } else {
-      rows.push(`  ${key}: ${stylish(diff)}`);
+      rows[rows.length] = `  ${key}: ${stylish(diff)}`;
     }
   });
   return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`)

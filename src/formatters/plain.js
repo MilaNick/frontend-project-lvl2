@@ -13,27 +13,30 @@ const addQuotesIfNeed = (value) => {
   return `'${value}'`;
 };
 
-export default function plain(obj) {
+export default function plain(object) {
   const rows = [];
+  const obj = { ...object };
   const fn = (obj, initialPath = []) => {
     const entries = Object.entries(obj);
     entries.forEach((pair) => {
       const [key, obj] = pair;
       const path = [...initialPath];
-      path.push(key);
+      path[path.length] = key;
       if (isDiffObject(obj)) {
         const diff = obj;
         const { type } = diff;
         const pathString = path.join('.');
         switch (diff.type) {
           case 'added':
-            rows.push(`Property '${pathString}' was ${type} with value: ${addQuotesIfNeed(getViewValue(diff.value2))}`);
+            rows[rows.length] = `Property '${pathString}' was ${type} with value: ${addQuotesIfNeed(getViewValue(diff.value2))}`;
             return;
           case 'removed':
-            rows.push(`Property '${pathString}' was ${type}`);
+            rows[rows.length] = `Property '${pathString}' was ${type}`;
             return;
           case 'updated':
-            rows.push(`Property '${pathString}' was ${type}. From ${addQuotesIfNeed(getViewValue(diff.value1))} to ${addQuotesIfNeed(getViewValue(diff.value2))}`);
+            rows[rows.length] = `Property '${pathString}' was ${type}. From ${addQuotesIfNeed(getViewValue(diff.value1))} to ${addQuotesIfNeed(getViewValue(diff.value2))}`;
+            break;
+          default:
         }
       } else {
         fn(obj, path);
