@@ -2,9 +2,9 @@ const getObjAsString = (obj) => {
   const str = JSON.stringify(obj, null, 4);
   if (typeof str === 'string') {
     return JSON.stringify(obj, null, 4)
-      .replaceAll('"', '')
-      .replaceAll('\n', '\n    ')
-      .replaceAll(',\n', '\n');
+      .replace(/"/g, '')
+      .replace(/\n/g, '\n    ')
+      .replace(/,\n/g, '\n');
   }
 };
 export default function stylish(obj, isFirstIteration = false) {
