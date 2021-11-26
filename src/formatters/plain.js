@@ -7,7 +7,7 @@ const getViewValue = (value) => {
   return value;
 };
 const addQuotesIfNeed = (value) => {
-  if ([false, true, null, '[complex value]'].includes(value)) {
+  if ([false, true, null, '[complex value]'].includes(value) || typeof value === 'number') {
     return value;
   }
   return `'${value}'`;
