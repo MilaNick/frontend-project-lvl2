@@ -1,3 +1,6 @@
+import { isDiffObject } from '../shared.js';
+export const isCorrectType = (type) => ['added', 'removed', 'updated', 'notUpdated'].includes(type);
+
 const getObjAsString = (obj) => {
   const str = JSON.stringify(obj, null, 4);
   if (typeof str === 'string') {
@@ -13,8 +16,8 @@ export default function stylish(obj, isFirstIteration = false) {
   entries.forEach((pair) => {
     const key = pair[0];
     const diff = pair[1];
-    const { type } = diff;
-    if (type) {
+    if (isDiffObject(diff)) {
+      const {type} = diff;
       if (typeof diff.value1 === 'object' && diff.value1) {
         diff.value1 = getObjAsString(diff.value1);
       }
