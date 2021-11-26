@@ -1,8 +1,12 @@
-const getObjAsString = (obj) => JSON.stringify(obj, null, 4)
-  .replaceAll('"', '')
-  .replaceAll('\n', '\n    ')
-  .replaceAll(',\n', '\n');
-
+const getObjAsString = (obj) => {
+  const str = JSON.stringify(obj, null, 4);
+  if (typeof str === 'string') {
+    return JSON.stringify(obj, null, 4)
+      .replaceAll('"', '')
+      .replaceAll('\n', '\n    ')
+      .replaceAll(',\n', '\n');
+  }
+};
 export default function stylish(obj, isFirstIteration = false) {
   const rows = [];
   const entries = Object.entries(obj);
