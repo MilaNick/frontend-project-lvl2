@@ -26,13 +26,14 @@ export default function stylish(obj, isFirstIteration = false) {
         case 'removed':
           return [...acc, `- ${key}: ${value1}`];
         case 'updated':
-          return [...acc, `- ${key}: ${value1}`, `+ ${key}: ${value2}`]
+          return [...acc, `- ${key}: ${value1}`, `+ ${key}: ${value2}`];
         case 'notUpdated':
           return [...acc, `  ${key}: ${value1}`];
         default:
+          return [...acc];
       }
     } else {
-      return [...acc, `  ${key}: ${stylish(diff)}`]
+      return [...acc, `  ${key}: ${stylish(diff)}`];
     }
   }, []);
   return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`)

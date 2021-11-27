@@ -14,8 +14,6 @@ const addQuotesIfNeed = (value) => {
 };
 
 export default function plain(object) {
-  const obj = { ...object };
-
   const fn = (obj, rows = [], initialPath = []) => {
     const entries = Object.entries(obj);
     return entries.reduce((acc, pair) => {
@@ -31,9 +29,9 @@ export default function plain(object) {
           case 'removed':
             return [...acc, `Property '${pathString}' was ${type}`];
           case 'updated':
-            return [...acc, `Property '${pathString}' was ${type}. From ${addQuotesIfNeed(getViewValue(diff.value1))} to ${addQuotesIfNeed(getViewValue(diff.value2))}`]
+            return [...acc, `Property '${pathString}' was ${type}. From ${addQuotesIfNeed(getViewValue(diff.value1))} to ${addQuotesIfNeed(getViewValue(diff.value2))}`];
           default:
-            return [...acc]
+            return [...acc];
         }
       } else {
         return fn(obj, acc, path);
@@ -41,6 +39,6 @@ export default function plain(object) {
     }, [...rows]);
   };
 
-  const rows = fn(obj);
+  const rows = fn({ ...object });
   return `${rows.join('\n')}`;
 }

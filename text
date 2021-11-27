@@ -1,32 +1,20 @@
-app_1  | Ran all test suites.
-app_1  | npx eslint --no-eslintrc --config .eslintrc.yml .
-app_1  |
-app_1  | /project/code/index.js
+/project/code/index.js
 app_1  |   33:20  error  The use of method `sort` is not allowed as it might be a mutating method  fp/no-mutating-methods
-app_1  |   38:7   error  Unallowed reassignment                                                    fp/no-mutation
-app_1  |   38:7   error  Assignment to property of function parameter 'diff'                       no-param-reassign
-app_1  |   40:7   error  Unallowed reassignment                                                    fp/no-mutation
-app_1  |   40:7   error  Assignment to property of function parameter 'diff'                       no-param-reassign
+app_1  |   40:48  error  Missing trailing comma                                                    comma-dangle
+app_1  |   41:8   error  Missing semicolon                                                         semi
+app_1  |   42:12  error  Unnecessary 'else' after 'return'                                         no-else-return
+app_1  |   49:10  error  Missing trailing comma                                                    comma-dangle
+app_1  |   50:8   error  Missing semicolon                                                         semi
 app_1  |
 app_1  | /project/code/src/formatters/plain.js
-app_1  |   19:15  error  'obj' is already declared in the upper scope on line 18 column 9   no-shadow
-app_1  |   22:19  error  'obj' is already declared in the upper scope on line 19 column 15  no-shadow
-app_1  |   24:7   error  Unallowed reassignment                                             fp/no-mutation
-app_1  |   31:13  error  Unallowed reassignment                                             fp/no-mutation
-app_1  |   34:13  error  Unallowed reassignment                                             fp/no-mutation
-app_1  |   37:13  error  Unallowed reassignment                                             fp/no-mutation
+app_1  |   19:15   error  'obj' is already declared in the upper scope on line 17 column 9   no-shadow
+app_1  |   22:19   error  'obj' is already declared in the upper scope on line 19 column 15  no-shadow
+app_1  |   34:169  error  Missing semicolon                                                  semi
+app_1  |   36:28   error  Missing semicolon                                                  semi
 app_1  |
 app_1  | /project/code/src/formatters/stylish.js
-app_1  |   24:9   error  Unallowed reassignment  fp/no-mutation
-app_1  |   27:9   error  Unallowed reassignment  fp/no-mutation
-app_1  |   31:11  error  Unallowed reassignment  fp/no-mutation
-app_1  |   34:11  error  Unallowed reassignment  fp/no-mutation
-app_1  |   37:11  error  Unallowed reassignment  fp/no-mutation
-app_1  |   38:11  error  Unallowed reassignment  fp/no-mutation
-app_1  |   41:11  error  Unallowed reassignment  fp/no-mutation
-app_1  |   46:7   error  Unallowed reassignment  fp/no-mutation
+app_1  |   16:55  error  Array.prototype.reduce() expects a value to be returned at the end of arrow function  array-callback-return
+app_1  |   16:55  error  Expected to return a value at the end of arrow function                               consistent-return
+app_1  |   29:72  error  Missing semicolon                                                                     semi
+app_1  |   35:52  error  Missing semicolon                                                                     semi
 app_1  |
-app_1  | ✖ 19 problems (19 errors, 0 warnings)
-app_1  |
-app_1  | make: *** [Makefile:29: lint] Error 1
-source_app_1 exited with code 2
