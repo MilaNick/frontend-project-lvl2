@@ -17,10 +17,10 @@ export default function plain(object) {
   const fn = (obj, rows = [], initialPath = []) => {
     const entries = Object.entries(obj);
     return entries.reduce((acc, pair) => {
-      const [key, obj] = pair;
+      const [key, valueObj] = pair;
       const path = [...initialPath, key];
-      if (isDiffObject(obj)) {
-        const diff = obj;
+      if (isDiffObject(valueObj)) {
+        const diff = valueObj;
         const { type } = diff;
         const pathString = path.join('.');
         switch (diff.type) {
@@ -34,7 +34,7 @@ export default function plain(object) {
             return [...acc];
         }
       } else {
-        return fn(obj, acc, path);
+        return fn(valueObj, acc, path);
       }
     }, [...rows]);
   };
