@@ -35,15 +35,20 @@ export const getDiffOfObjects = (obj1, obj2) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
     if (typeof value1 === 'object' && typeof value2 === 'object') {
-      diff[key] = getDiffOfObjects(value1, value2);
+      return {
+        ...diff,
+        [key]: getDiffOfObjects(value1, value2)
+      }
     } else {
-      diff[key] = {
-        value1,
-        value2,
-        type: getType(key, obj1, obj2),
-      };
+      return {
+        ...diff,
+        [key]: {
+          value1,
+          value2,
+          type: getType(key, obj1, obj2),
+        }
+      }
     }
-    return diff;
   }, {});
 };
 

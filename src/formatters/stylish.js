@@ -13,39 +13,28 @@ const getObjAsString = (obj) => {
   return '';
 };
 export default function stylish(obj, isFirstIteration = false) {
-  const rows = [];
-  const entries = Object.entries(obj);
-  entries.forEach((pair) => {
+  const rows = Object.entries(obj).reduce((acc, pair) => {
     const key = pair[0];
     const diff = pair[1];
     if (isDiffObject(diff)) {
       const { type } = diff;
-      if (typeof diff.value1 === 'object' && diff.value1) {
-        diff.value1 = getObjAsString(diff.value1);
-      }
-      if (typeof diff.value2 === 'object' && diff.value2) {
-        diff.value2 = getObjAsString(diff.value2);
-      }
+      const value1 = (typeof diff.value1 === 'object' && diff.value1) ? getObjAsString(diff.value1) : diff.value1;
+      const value2 = (typeof diff.value2 === 'object' && diff.value2) ? getObjAsString(diff.value2) : diff.value2;
       switch (type) {
         case 'added':
-          rows[rows.length] = `+ ${key}: ${diff.value2}`;
-          return;
+          return [...acc, `+ ${key}: ${value2}`];
         case 'removed':
-          rows[rows.length] = `- ${key}: ${diff.value1}`;
-          return;
+          return [...acc, `- ${key}: ${value1}`];
         case 'updated':
-          rows[rows.length] = `- ${key}: ${diff.value1}`;
-          rows[rows.length] = `+ ${key}: ${diff.value2}`;
-          return;
+          return [...acc, `- ${key}: ${value1}`, `+ ${key}: ${value2}`]
         case 'notUpdated':
-          rows[rows.length] = `  ${key}: ${diff.value1}`;
-          break;
+          return [...acc, `  ${key}: ${value1}`];
         default:
       }
     } else {
-      rows[rows.length] = `  ${key}: ${stylish(diff)}`;
+      return [...acc, `  ${key}: ${stylish(diff)}`]
     }
-  });
+  }, []);
   return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`)
     .split('\n')
     .join(isFirstIteration ? '\n' : '\n    ');
