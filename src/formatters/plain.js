@@ -23,15 +23,14 @@ export default function plain(object) {
         const diff = valueObj;
         const { type } = diff;
         const pathString = path.join('.');
-        switch (diff.type) {
+        switch (type) {
           case 'added':
             return [...acc, `Property '${pathString}' was ${type} with value: ${addQuotesIfNeed(getViewValue(diff.value2))}`];
           case 'removed':
             return [...acc, `Property '${pathString}' was ${type}`];
           case 'updated':
             return [...acc, `Property '${pathString}' was ${type}. From ${addQuotesIfNeed(getViewValue(diff.value1))} to ${addQuotesIfNeed(getViewValue(diff.value2))}`];
-          default:
-            return [...acc];
+          default: return [...acc];
         }
       } else {
         return fn(valueObj, acc, path);

@@ -26,7 +26,7 @@ const getType = (key, obj1, obj2) => {
       return 'notUpdated'; // если ключи и значения тождественны
     }
   }
-  return '';
+  return null;
 };
 
 const sortArray = (arr) => arr.reduce((acc, item) => {
