@@ -29,8 +29,23 @@ const getType = (key, obj1, obj2) => {
   return '';
 };
 
+const sortArray = (arr) => {
+  return arr.reduce((acc, item) => {
+    if (acc.length === 0) {
+      return [item];
+    }
+    const half = acc.reduce((pair, accItem) => {
+      if (accItem > item) {
+        return [[...pair[0]], [...pair[1], accItem]]
+      }
+      return [[...pair[0], accItem], [...pair[1]]]
+    }, [[], []])
+    return [...half[0], item, ...half[1]];
+  }, [])
+}
+
 export const getDiffOfObjects = (obj1, obj2) => {
-  const uniqKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort();
+  const uniqKeys = sortArray(Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])));
   return uniqKeys.reduce((diff, key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
