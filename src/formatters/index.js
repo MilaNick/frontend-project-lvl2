@@ -1,5 +1,5 @@
-import stylish from "./stylish.js";
-import plain from "./plain.js";
+import stylish from './stylish.js';
+import plain from './plain.js';
 
 export default (format) => {
   switch (format) {
@@ -16,4 +16,4 @@ export default (format) => {
       return new Error(`Формата ${format} не существует`);
     }
   }
-}
+};

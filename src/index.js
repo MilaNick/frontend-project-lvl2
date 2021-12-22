@@ -2,9 +2,8 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 import parse from './parsers.js';
-import stylish from './formatters/stylish.js';
+// import stylish from './formatters/stylish.js';
 import getFormatter from './formatters/index.js';
-
 
 const getObject = (filepath) => {
   const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
@@ -57,7 +56,7 @@ export const getDiffOfObjects = (obj1, obj2) => {
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
   const obj1 = getObject(filepath1);
   const obj2 = getObject(filepath2);
-  const diff = getDiffOfObjects(obj1, obj2)
+  const diff = getDiffOfObjects(obj1, obj2);
   const formatter = getFormatter(format);
   return formatter(diff, true);
 };
