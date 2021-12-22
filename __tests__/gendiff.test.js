@@ -1,7 +1,7 @@
 import { test, expect } from '@jest/globals';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import genDiff from '../index.js';
+import genDiff from '../src/index.js';
 
 describe('json', () => {
   test('difference for files with nested structure with formatter json', () => {

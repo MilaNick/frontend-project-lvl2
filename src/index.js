@@ -1,8 +1,10 @@
 import fs from 'fs';
+import _ from 'lodash';
 import path from 'path';
-import parse from './src/parsers.js';
-import stylish from './src/formatters/stylish.js';
-import plain from './src/formatters/plain.js';
+import parse from './parsers.js';
+import stylish from './formatters/stylish.js';
+import getFormatter from './formatters/index.js';
+
 
 const getObject = (filepath) => {
   const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
@@ -29,22 +31,10 @@ const getType = (key, obj1, obj2) => {
   return null;
 };
 
-const sortArray = (arr) => arr.reduce((acc, item) => {
-  if (acc.length === 0) {
-    return [item];
-  }
-  const half = acc.reduce((pair, accItem) => {
-    if (accItem > item) {
-      return [[...pair[0]], [...pair[1], accItem]];
-    }
-    return [[...pair[0], accItem], [...pair[1]]];
-  }, [[], []]);
-  return [...half[0], item, ...half[1]];
-}, []);
-
 export const getDiffOfObjects = (obj1, obj2) => {
-  const uniqKeys = sortArray(Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])));
-  return uniqKeys.reduce((diff, key) => {
+  const uniqKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)]));
+  const sortedUniqKeys = _.sortBy(uniqKeys);
+  return sortedUniqKeys.reduce((diff, key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
     if (typeof value1 === 'object' && typeof value2 === 'object') {
@@ -67,20 +57,9 @@ export const getDiffOfObjects = (obj1, obj2) => {
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
   const obj1 = getObject(filepath1);
   const obj2 = getObject(filepath2);
-  switch (format) {
-    case 'stylish': {
-      return stylish(getDiffOfObjects(obj1, obj2), true);
-    }
-    case 'plain': {
-      return plain(getDiffOfObjects(obj1, obj2));
-    }
-    case 'json': {
-      return JSON.stringify(getDiffOfObjects(obj1, obj2));
-    }
-    default: {
-      return new Error('данного формата не существует');
-    }
-  }
+  const diff = getDiffOfObjects(obj1, obj2)
+  const formatter = getFormatter(format);
+  return formatter(diff, true);
 };
 
 export default genDiff;
