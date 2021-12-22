@@ -31,15 +31,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install
         # Install project
-        run: |
-          make install
-        # Add environment variables
-        env:
-          CI: true
+        run: make install
       - name: Run linter
         # Run Linter
-        run: |
-          make lint
+        run: make lint
       - name: Test & publish code coverage
         # Publish code coverage on Code Climate
         # https://github.com/paambaati/codeclimate-action
