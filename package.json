@@ -11,7 +11,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "coverage": "npx jest --coverage"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
