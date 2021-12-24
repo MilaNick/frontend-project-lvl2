@@ -7,11 +7,9 @@
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
-  "engines": {
-    "node": ">=14"
-  },
   "scripts": {
-    "coverage": "npx jest --coverage"
+    "test": "npx jest",
+    "test-coverage": "npx jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -39,5 +37,8 @@
     "eslint-plugin-import": "^2.25.1",
     "eslint-plugin-jest": "^25.0.5",
     "jest": "^27.2.5"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

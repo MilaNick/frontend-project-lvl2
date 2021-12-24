@@ -2,7 +2,6 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 import parse from './parsers.js';
-// import stylish from './formatters/stylish.js';
 import getFormatter from './formatters/index.js';
 
 const getObject = (filepath) => {
