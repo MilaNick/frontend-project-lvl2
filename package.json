@@ -7,9 +7,11 @@
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
-    "test": "npx jest",
-    "test-coverage": "npx jest --coverage"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
