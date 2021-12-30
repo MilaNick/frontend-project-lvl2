@@ -5,50 +5,86 @@ import parse from './parsers.js';
 import getFormatter from './formatters/index.js';
 
 const getObject = (filepath) => {
-  const pathToDataDir = '/home/solo/frontend-project-lvl2/__fixtures__';
-  const file = fs.readFileSync(path.resolve(pathToDataDir, filepath), { encoding: 'utf8' });
+  const file = fs.readFileSync(filepath, { encoding: 'utf8' });
   const format = path.extname(filepath).slice(1);
   return parse(format, file);
 };
 
 const getType = (key, obj1, obj2) => {
   if (!(key in obj1) && (key in obj2)) {
-    return 'added'; // если в первом нет ключа, а во втором есть
+    return 'added';
   }
   if ((key in obj1) && !(key in obj2)) {
-    return 'removed'; // если в первом есть ключ, а во втором нет
+    return 'removed';
   }
-  if ((key in obj1) && (key in obj2)) {
-    if (obj1[key] !== obj2[key]) {
-      return 'updated'; // если ключи есть в обоих, но значения разные
+  const oldValue = obj1[key];
+  const newValue = obj2[key];
+
+  if (oldValue !== null &&
+    newValue !== null &&
+    typeof oldValue === 'object' &&
+    typeof newValue === 'object'
+  ) {
+    if ([oldValue, newValue].some(Array.isArray)) {
+      return _.isEqual(oldValue, newValue) ? 'notUpdated' : 'updated';
     }
-    if (obj1[key] === obj2[key]) {
-      return 'notUpdated'; // если ключи и значения тождественны
-    }
+    return 'withChildren';
   }
-  return null;
+  return oldValue === newValue ? 'notUpdated' : 'updated';
 };
 
 export const getDiffOfObjects = (obj1, obj2) => {
+  if (!obj1 || !obj2) {
+    throw new Error(`The ${obj1 ? 'second' : 'first'} argument is not an object`);
+  }
   const uniqKeys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)]));
   const sortedUniqKeys = _.sortBy(uniqKeys);
+
   return sortedUniqKeys.reduce((diff, key) => {
-    const value1 = obj1[key];
-    const value2 = obj2[key];
-    if (typeof value1 === 'object' && typeof value2 === 'object') {
-      return {
-        ...diff,
-        [key]: getDiffOfObjects(value1, value2),
-      };
+    const oldValue = obj1[key];
+    const newValue = obj2[key];
+    const type = getType(key, obj1, obj2);
+
+    switch (type) {
+      case 'updated': {
+        return {
+          ...diff,
+          [key]: {
+            oldValue,
+            newValue,
+            type,
+          },
+        }
+      }
+      case 'notUpdated':
+      case 'removed' : {
+        return {
+          ...diff,
+          [key]: {
+            value: oldValue,
+            type,
+          },
+        }
+      }
+      case 'added': {
+        return {
+          ...diff,
+          [key]: {
+            value: newValue,
+            type,
+          },
+        }
+      }
+      case 'withChildren': {
+        return {
+          ...diff,
+          [key]: {
+            children: getDiffOfObjects(oldValue, newValue),
+            type: 'withChildren'
+          },
+        };
+      }
     }
-    return {
-      ...diff,
-      [key]: {
-        value1,
-        value2,
-        type: getType(key, obj1, obj2),
-      },
-    };
   }, {});
 };
 
@@ -57,7 +93,7 @@ const genDiff = (filepath1, filepath2, format = 'stylish') => {
   const obj2 = getObject(filepath2);
   const diff = getDiffOfObjects(obj1, obj2);
   const formatter = getFormatter(format);
-  return formatter(diff, true);
+  return formatter(diff)
 };
 
 export default genDiff;

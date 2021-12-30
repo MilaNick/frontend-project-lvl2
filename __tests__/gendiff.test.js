@@ -8,7 +8,7 @@ describe('json', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.json'), resolve(__dirname, '../__fixtures__/case1/file-4.json'), 'json');
     expect(result).toBe(
-      '{"common":{"children":{"follow":{"value":false,"type":"added"},"setting1":{"value":"Value 1","type":"notUpdated"},"setting2":{"value":200,"type":"removed"},"setting3":{"oldValue":true,"newValue":null,"type":"updated"},"setting4":{"value":"blah blah","type":"added"},"setting5":{"value":{"key5":"value5"},"type":"added"},"setting6":{"children":{"doge":{"children":{"wow":{"oldValue":"","newValue":"so much","type":"updated"}},"type":"hasChildren"},"key":{"value":"value","type":"notUpdated"},"ops":{"value":"vops","type":"added"}},"type":"hasChildren"}},"type":"hasChildren"},"group1":{"children":{"baz":{"oldValue":"bas","newValue":"bars","type":"updated"},"foo":{"value":"bar","type":"notUpdated"},"nest":{"oldValue":{"key":"value"},"newValue":"str","type":"updated"}},"type":"hasChildren"},"group2":{"value":{"abc":12345,"deep":{"id":45}},"type":"removed"},"group3":{"value":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}}',
+      '{"common":{"children":{"follow":{"value":false,"type":"added"},"setting1":{"value":"Value 1","type":"notUpdated"},"setting2":{"value":200,"type":"removed"},"setting3":{"oldValue":true,"newValue":null,"type":"updated"},"setting4":{"value":"blah blah","type":"added"},"setting5":{"value":{"key5":"value5"},"type":"added"},"setting6":{"children":{"doge":{"children":{"wow":{"oldValue":"","newValue":"so much","type":"updated"}},"type":"withChildren"},"key":{"value":"value","type":"notUpdated"},"ops":{"value":"vops","type":"added"}},"type":"withChildren"}},"type":"withChildren"},"group1":{"children":{"baz":{"oldValue":"bas","newValue":"bars","type":"updated"},"foo":{"value":"bar","type":"notUpdated"},"nest":{"oldValue":{"key":"value"},"newValue":"str","type":"updated"}},"type":"withChildren"},"group2":{"value":{"abc":12345,"deep":{"id":45}},"type":"removed"},"group3":{"value":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}}',
     );
   });
   test('difference for files with nested structure with formatter plain', () => {
@@ -146,7 +146,7 @@ describe('yaml', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const result = genDiff(resolve(__dirname, '../__fixtures__/case1/file-3.yml'), resolve(__dirname, '../__fixtures__/case1/file-4.yaml'), 'json');
     expect(result).toBe(
-      '{"common":{"children":{"follow":{"value":false,"type":"added"},"setting1":{"value":"Value 1","type":"notUpdated"},"setting2":{"value":200,"type":"removed"},"setting3":{"oldValue":true,"newValue":null,"type":"updated"},"setting4":{"value":"blah blah","type":"added"},"setting5":{"value":{"key5":"value5"},"type":"added"},"setting6":{"children":{"doge":{"children":{"wow":{"oldValue":"","newValue":"so much","type":"updated"}},"type":"hasChildren"},"key":{"value":"value","type":"notUpdated"},"ops":{"value":"vops","type":"added"}},"type":"hasChildren"}},"type":"hasChildren"},"group1":{"children":{"baz":{"oldValue":"bas","newValue":"bars","type":"updated"},"foo":{"value":"bar","type":"notUpdated"},"nest":{"oldValue":{"key":"value"},"newValue":"str","type":"updated"}},"type":"hasChildren"},"group2":{"value":{"abc":12345,"deep":{"id":45}},"type":"removed"},"group3":{"value":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}}',
+      '{"common":{"children":{"follow":{"value":false,"type":"added"},"setting1":{"value":"Value 1","type":"notUpdated"},"setting2":{"value":200,"type":"removed"},"setting3":{"oldValue":true,"newValue":null,"type":"updated"},"setting4":{"value":"blah blah","type":"added"},"setting5":{"value":{"key5":"value5"},"type":"added"},"setting6":{"children":{"doge":{"children":{"wow":{"oldValue":"","newValue":"so much","type":"updated"}},"type":"withChildren"},"key":{"value":"value","type":"notUpdated"},"ops":{"value":"vops","type":"added"}},"type":"withChildren"}},"type":"withChildren"},"group1":{"children":{"baz":{"oldValue":"bas","newValue":"bars","type":"updated"},"foo":{"value":"bar","type":"notUpdated"},"nest":{"oldValue":{"key":"value"},"newValue":"str","type":"updated"}},"type":"withChildren"},"group2":{"value":{"abc":12345,"deep":{"id":45}},"type":"removed"},"group3":{"value":{"deep":{"id":{"number":45}},"fee":100500},"type":"added"}}',
     );
   });
   test('difference for files with nested structure with formatter plain', () => {
@@ -249,18 +249,10 @@ Property 'group3' was added with value: [complex value]`,
     );
   });
 
-  test('the difference between empty and filled objects', () => {
+  test('if try to get the difference between empty file and filled objects', () => {
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const result = genDiff(resolve(__dirname, '../__fixtures__/case3/file-1.yml'), resolve(__dirname, '../__fixtures__/case3/file-2.yaml'), 'stylish');
-    expect(result).toBe(
-      `{
-  + follow: true
-  + host: yahoo.com
-  + proxy: 123.234.53.25
-  + timeout: 20
-  + verbose: true
-}`,
-    );
+    expect(() => genDiff(resolve(__dirname, '../__fixtures__/case3/file-1.yml'), resolve(__dirname, '../__fixtures__/case3/file-2.yaml'), 'stylish'))
+      .toThrowError('The first argument is not an object');
   });
 
   test('the difference between objects that do not have the same keys', () => {

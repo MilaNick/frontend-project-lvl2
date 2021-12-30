@@ -1,36 +1,27 @@
-import { isDiffObject } from '../shared.js';
-
-export const isCorrectType = (type) => ['added', 'removed', 'updated', 'notUpdated'].includes(type);
-
-const getObjAsString = (obj) => {
-  const str = JSON.stringify(obj, null, 4);
-  if (typeof str === 'string') {
-    return JSON.stringify(obj, null, 4)
-      .replace(/"/g, '')
-      .replace(/\n/g, '\n    ')
-      .replace(/,\n/g, '\n');
+const getValueAsString = (value, iteration) => {
+  if (['number', 'string', 'boolean', 'undefined'].includes(typeof value) || value === null) {
+    return value;
   }
-  return '';
-};
-export default function stylish(obj, isFirstIteration = false) {
+  const rows = Object.entries(value).reduce((acc, item) => {
+    acc.push(`${item[0]}: ${getValueAsString(item[1], iteration + 1)}`);
+    return acc;
+  }, [])
+  return (`{\n${rows.map((str) => `${' '.repeat(iteration * 4)}${str}`).join('\n')}\n${' '.repeat((iteration - 1) * 4)}}`)
+}
+
+export default function stylish(obj, iteration = 1) {
   const rows = Object.entries(obj).reduce((acc, pair) => {
     const [key, diff] = pair;
-    if (isDiffObject(diff)) {
-      const { type } = diff;
-      const value1 = (typeof diff.value1 === 'object' && diff.value1) ? getObjAsString(diff.value1) : diff.value1;
-      const value2 = (typeof diff.value2 === 'object' && diff.value2) ? getObjAsString(diff.value2) : diff.value2;
-      switch (type) {
-        case 'added': return [...acc, `+ ${key}: ${value2}`];
-        case 'removed': return [...acc, `- ${key}: ${value1}`];
-        case 'updated': return [...acc, `- ${key}: ${value1}`, `+ ${key}: ${value2}`];
-        case 'notUpdated': return [...acc, `  ${key}: ${value1}`];
-        default: return [...acc];
-      }
-    } else {
-      return [...acc, `  ${key}: ${stylish(diff)}`];
+    const nextIteration = iteration + 1;
+    switch (diff.type) {
+      case 'withChildren': return [...acc, `  ${key}: ${stylish(diff.children, nextIteration)}`];
+      case 'added': return [...acc, `+ ${key}: ${getValueAsString(diff.value, nextIteration)}`];
+      case 'removed': return [...acc, `- ${key}: ${getValueAsString(diff.value, nextIteration)}`];
+      case 'updated': return [...acc, `- ${key}: ${getValueAsString(diff.oldValue, nextIteration)}`, `+ ${key}: ${getValueAsString(diff.newValue, nextIteration)}`];
+      case 'notUpdated': return [...acc, `  ${key}: ${getValueAsString(diff.value, nextIteration)}`];
+      default: return [...acc];
     }
   }, []);
-  return (`{\n${rows.map((str) => `  ${str}`).join('\n')}\n}`)
-    .split('\n')
-    .join(isFirstIteration ? '\n' : '\n    ');
+  const space = ' '.repeat((iteration - 1) * 4);
+  return (`{\n${rows.map((str) => `  ${space}${str}`).join('\n')}\n${space}}`)
 }
