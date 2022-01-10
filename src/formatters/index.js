@@ -1,19 +1,7 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
+import json from './json.js';
 
-export default (format) => {
-  switch (format) {
-    case 'stylish': {
-      return stylish;
-    }
-    case 'plain': {
-      return plain;
-    }
-    case 'json': {
-      return JSON.stringify;
-    }
-    default: {
-      return new Error(`Формата ${format} не существует`);
-    }
-  }
-};
+const formatters = { stylish, plain, json };
+
+export default (ast, formatName) => formatters[formatName](ast);

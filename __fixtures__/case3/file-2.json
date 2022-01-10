@@ -1,7 +1,0 @@
-{
-  "timeout": 20,
-  "verbose": true,
-  "host": "yahoo.com",
-  "proxy": "123.234.53.25",
-  "follow": true
-}

@@ -1,15 +1,9 @@
 import yaml from 'js-yaml';
 
-const parse = (format, data) => {
-  switch (format) {
-    case 'json':
-      return JSON.parse(data);
-    case 'yml':
-      return yaml.load(data);
-    case 'yaml':
-      return yaml.load(data);
-    default:
-      throw new Error(`Ошибка ${format}`);
-  }
+const parsers = {
+  json: JSON.parse,
+  yaml: yaml.load,
+  yml: yaml.load,
 };
-export default parse;
+
+export default (fileData, dataFormat) => parsers[dataFormat](fileData);

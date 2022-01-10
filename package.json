@@ -1,12 +1,12 @@
 {
   "name": "@hexlet/code",
-  "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/MilaNick/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)   ## Project-gendiff",
-  "main": "src/index.js",
   "type": "module",
+  "version": "2.0.0",
+  "description": "[![Actions Status](https://github.com/MilaNick/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)   ## Project-gendiff",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
+  "main": "src/index.js",
   "engines": {
     "node": ">=14"
   },
@@ -24,6 +24,13 @@
     "url": "https://github.com/MilaNick/frontend-project-lvl2/issues"
   },
   "homepage": "https://github.com/MilaNick/frontend-project-lvl2#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.1",
+    "eslint-plugin-jest": "^25.0.5",
+    "jest": "^27.2.5"
+  },
   "dependencies": {
     "-": "^0.0.1",
     "@jest/globals": "^27.3.1",
@@ -33,13 +40,6 @@
     "lodash": "^4.17.21",
     "npm": "^8.0.0",
     "updater-eslint": "^1.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.25.1",
-    "eslint-plugin-jest": "^25.0.5",
-    "jest": "^27.2.5"
   },
   "jest": {
     "testEnvironment": "node"

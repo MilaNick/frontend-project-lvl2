@@ -1,27 +1,36 @@
-const getValueAsString = (value, iteration) => {
-  if (['number', 'string', 'boolean', 'undefined'].includes(typeof value) || value === null) {
-    return value;
-  }
-  const rows = Object.entries(value).reduce((acc, item) => {
-    acc.push(`${item[0]}: ${getValueAsString(item[1], iteration + 1)}`);
-    return acc;
-  }, [])
-  return (`{\n${rows.map((str) => `${' '.repeat(iteration * 4)}${str}`).join('\n')}\n${' '.repeat((iteration - 1) * 4)}}`)
-}
+import _ from 'lodash';
 
-export default function stylish(obj, iteration = 1) {
-  const rows = Object.entries(obj).reduce((acc, pair) => {
-    const [key, diff] = pair;
-    const nextIteration = iteration + 1;
-    switch (diff.type) {
-      case 'withChildren': return [...acc, `  ${key}: ${stylish(diff.children, nextIteration)}`];
-      case 'added': return [...acc, `+ ${key}: ${getValueAsString(diff.value, nextIteration)}`];
-      case 'removed': return [...acc, `- ${key}: ${getValueAsString(diff.value, nextIteration)}`];
-      case 'updated': return [...acc, `- ${key}: ${getValueAsString(diff.oldValue, nextIteration)}`, `+ ${key}: ${getValueAsString(diff.newValue, nextIteration)}`];
-      case 'notUpdated': return [...acc, `  ${key}: ${getValueAsString(diff.value, nextIteration)}`];
-      default: return [...acc];
-    }
-  }, []);
-  const space = ' '.repeat((iteration - 1) * 4);
-  return (`{\n${rows.map((str) => `  ${space}${str}`).join('\n')}\n${space}}`)
-}
+const symbols = {
+  unupdated: ' ',
+  added: '+',
+  removed: '-',
+  nested: ' ',
+};
+
+const indent = 4;
+const setIndent = (depth, spaces = 2) => ' '.repeat(depth * indent - spaces);
+
+const stringify = (value, depth) => {
+  if (!_.isObject(value)) return value;
+  return `{\n${Object.entries(value).map(([key, val]) => `${setIndent(depth)}  ${key}: ${stringify(val,
+    depth + 1)}`).join('\n')}\n${setIndent(depth - 1)}  }`;
+};
+
+const renderAst = (elem, depth) => {
+  switch (elem.status) {
+    case 'added':
+    case 'removed':
+    case 'unupdated':
+      return `${setIndent(depth)}${symbols[elem.status]} ${elem.key}: ${stringify(elem.value, depth + 1)}`;
+    case 'updated':
+      return `${setIndent(depth)}${symbols.removed} ${elem.key}: ${stringify(elem.valueBefore,
+        depth + 1)}\n${setIndent(depth)}${symbols.added} ${elem.key}: ${stringify(elem.valueAfter, depth + 1)}`;
+    case 'nested':
+      return `${setIndent(depth)}${symbols[elem.status]} ${elem.key}: {\n${elem.children
+        .map((element) => renderAst(element, depth + 1)).join('\n')}\n  ${setIndent(depth)}}`;
+    default:
+      throw new Error('Unknown state!');
+  }
+};
+
+export default (astDifference) => `{\n${astDifference.map((elem) => renderAst(elem, 1)).join('\n')}\n}`;

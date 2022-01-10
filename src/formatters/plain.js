@@ -1,38 +1,29 @@
-const getComplexValueIfNeed = (value) => {
-  if (typeof value === 'object' && value) {
-    return '[complex value]';
-  }
+import _ from 'lodash';
+
+const stringifyValue = (value) => {
+  if (_.isPlainObject(value)) return '[complex value]';
+  if (typeof value === 'string') return `'${value}'`;
   return value;
 };
 
-const addQuotesIfNeed = (value) => {
-  if ([false, true, null, '[complex value]'].includes(value) || typeof value === 'number') {
-    return value;
+const renderAst = (elem, parent = '') => {
+  switch (elem.status) {
+    case 'nested':
+      return elem.children.map((element) => renderAst(element, `${parent + elem.key}.`))
+        .filter((el) => el !== null).join('\n');
+    case 'updated':
+      return `Property '${parent}${elem.key}' was ${elem.status}. From ${
+        stringifyValue(elem.valueBefore)} to ${stringifyValue(elem.valueAfter)}`;
+    case 'removed':
+      return `Property '${parent}${elem.key}' was ${elem.status}`;
+    case 'added':
+      return `Property '${parent}${elem.key}' was ${elem.status} with value: ${
+        stringifyValue(elem.value)}`;
+    case 'unupdated':
+      return null;
+    default:
+      throw new Error('Unknown state!');
   }
-  return `'${value}'`;
 };
 
-export default function plain(object) {
-  const fn = (obj, initialPath = []) => {
-    const entries = Object.entries(obj);
-    return entries.flatMap((pair) => {
-      const [key, valueObj] = pair;
-      const path = [...initialPath, key];
-      const diff = valueObj;
-      const { type } = diff;
-      const pathString = path.join('.');
-      switch (type) {
-        case 'added':
-          return `Property '${pathString}' was ${type} with value: ${addQuotesIfNeed(getComplexValueIfNeed(diff.value))}`;
-        case 'removed':
-          return `Property '${pathString}' was ${type}`;
-        case 'updated':
-          return `Property '${pathString}' was ${type}. From ${addQuotesIfNeed(getComplexValueIfNeed(diff.oldValue))} to ${addQuotesIfNeed(getComplexValueIfNeed(diff.newValue))}`;
-        case 'withChildren':
-          return fn({...diff.children}, path);
-      }
-    });
-  };
-
-  return fn({ ...object }).filter(Boolean).join('\n');
-}
+export default (astDifference) => `${astDifference.map((elem) => renderAst(elem)).join('\n')}`;
