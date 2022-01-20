@@ -4,8 +4,6 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/380c1b7806a4bcad9861/test_coverage)](https://codeclimate.com/github/MilaNick/frontend-project-lvl2/test_coverage)
 [![example workflow](https://github.com/MilaNick/frontend-project-lvl2/actions/workflows/actions.yml/badge.svg)](https://github.com/MilaNick/frontend-project-lvl2/actions)
   
-## The project is not finished, in development
-
 ## ✨ Project-gendiff ✨
 
 Project 'Difference calculator'. The project implements a utility to find differences in configuration files.
@@ -67,9 +65,9 @@ gendiff 'file1.yml' 'file2.yml'
 ```
 [![asciicast](https://asciinema.org/a/446615.svg)](https://asciinema.org/a/446615)  
 
-### files with nested structure
+### files with nested structure with different formats
 
-[![asciicast](https://asciinema.org/a/447110.svg)](https://asciinema.org/a/447110)
+[![asciicast](https://asciinema.org/a/3QJsSfKlvbxYOUJ13YgYFGxoq.svg)](https://asciinema.org/a/3QJsSfKlvbxYOUJ13YgYFGxoq)
 
 ## Purpose
 This is an application implemented as part of the second project when studying the profession of a Javascript developer on hexlet.io . The second project is a logical development of [the first](https://github.com/MilaNick/frontend-project-lvl1) It captures most of the syntactic capabilities of js and uses a more complex architecture. Requirements:
